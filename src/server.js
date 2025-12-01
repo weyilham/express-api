@@ -29,6 +29,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.json({ message: "Hello from Express on Vercel!" });
+});
 // routes image static folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -49,9 +52,5 @@ app.use((req, res, next) => {
 // app.listen(PORT, () => {
 //   console.log(`Server is running on http://localhost:${PORT}`);
 // });
-
-app.use((req, res, next) => {
-  res.status(404).json({ message: "Route not found" });
-});
 
 export default app;
