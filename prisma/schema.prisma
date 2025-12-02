@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,7 +7,6 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-        
 
 model User {
   id        String    @id @default(uuid())
@@ -42,7 +40,8 @@ model Product {
   carts       Cart[]
   inventory   Inventory @relation(fields: [inventoryId], references: [id])
 
-  @@index([inventoryId], map: "Product_inventoryId_fkey")
+  // nama index diganti ke nama yang aman
+  @@index([inventoryId], map: "idx_product_inventoryId")
 }
 
 model Cart {
@@ -51,11 +50,12 @@ model Cart {
   quantity  Int
   total     Int
   userId    String
+
   product   Product @relation(fields: [productId], references: [id])
   user      User    @relation(fields: [userId], references: [id])
 
-  @@index([productId], map: "Cart_productId_fkey")
-  @@index([userId], map: "Cart_userId_fkey")
+  @@index([productId], map: "idx_cart_productId")
+  @@index([userId], map: "idx_cart_userId")
 }
 
 model Invoice {
@@ -71,5 +71,5 @@ model Invoice {
   updatedAt DateTime @updatedAt
   user      User?    @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "Invoice_userId_fkey")
+  @@index([userId], map: "idx_invoice_userId")
 }
